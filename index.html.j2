@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html>
+	  <head>
+		      <title>EC2 Instance Info</title>
+		      <style>
+      body {
+	    font-family: Arial, sans-serif;
+	    margin: 40px;
+	   }
+      .info {
+	     background: #f4f4f4;
+	     padding: 20px;
+	     border-radius: 5px;
+	     }
+      span{
+	      padding:5px;
+              border-radius:10px;
+color:#FFFFFF;
+      }
+
+      #ip {
+	      background: #000080;
+      }
+      #az{ background:#c30010
+      }
+      #hostname {
+	      background: #060606}
+</style>
+</head>
+<body>
+	<h1>Website Deployment Project</h1>
+	<div class="info">
+	<h2>Instance Information</h2>
+	<p><strong>Instance IP:</strong> <span id="ip">{{ ec2_ip.stdout }}</span></p>
+	<p><strong>Availability Zone:</strong> <span id="az">{{ ec2_az.stdout }}</span></p>
+	<p><strong>Hostname:</strong> <span id="hostname">{{ ec2_hostname.stdout }}</span></p>
+
+	</div>
+      </body>
+</html>
+

@@ -1,0 +1,46 @@
+---
+- name: Deploy Website to Ubuntu EC2 Instances
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update and install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+    - name: Ensure nginx is started and enable
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+    - name: Get IMDSv2 token
+      command : >
+        curl -X PUT "http://169.254.169.254/latest/api/token"
+        -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"
+      register: imds_token
+    - name: Fetch EC2 Instance IP
+      command: >
+        curl -H "X-aws-ec2-metadata-token: {{ imds_token.stdout }}"
+        -s http://169.254.169.254/latest/meta-data/local-ipv4
+      register: ec2_ip
+    - name: Fetch EC2 Availability Zone
+      command: >
+        curl -H "X-aws-ec2-metadata-token: {{ imds_token.stdout }}"
+        -s http://169.254.169.254/latest/meta-data/placement/availability-zone
+      register: ec2_az
+    - name: Fetch EC2 Hostname
+      command: >
+         curl -H "X-aws-ec2-metadata-token: {{ imds_token.stdout }}"
+         -s http://169.254.169.254/latest/meta-data/local-hostname
+      register: ec2_hostname
+    - name: Deploy custom HTML file
+      template:
+        src: index.html.j2
+        dest: /var/www/html/index.html
+        mode: '0644'
+
+
+    - name: Restart nginx to apply changes
+      systemd:
+        name: nginx
+        state: restarted
