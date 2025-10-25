@@ -1,42 +1,220 @@
 
+
+
+
 <!DOCTYPE html>
-<html>
-	  <head>
-		      <title>EC2 Instance Info</title>
-		      <style>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AWS EC2 Automation Project - Agbabiaka Owolabi</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
       body {
-	    font-family: Arial, sans-serif;
-	    margin: 40px;
-	   }
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: #fff;
+        line-height: 1.6;
+      }
+      header {
+        text-align: center;
+        padding: 70px 20px 40px;
+        background: linear-gradient(120deg, #0077ff, #8a2be2);
+        color: #fff;
+        border-bottom-left-radius: 50% 10%;
+        border-bottom-right-radius: 50% 10%;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+      }
+      header h1 {
+        font-size: 3em;
+        margin-bottom: 10px;
+      }
+      header p {
+        font-size: 1.2em;
+        font-weight: 300;
+      }
+
+      section {
+        max-width: 1000px;
+        margin: 50px auto;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      }
+      h2 {
+        color: #00bfff;
+        border-bottom: 2px solid #00bfff;
+        display: inline-block;
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+      }
+
+      .project {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
       .info {
-	     background: #f4f4f4;
-	     padding: 20px;
-	     border-radius: 5px;
-	     }
-      span{
-	      padding:5px;
-              border-radius:10px;
-color:#FFFFFF;
+        background: #ffffff11;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 20px;
+        box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
+      }
+
+      span {
+        font-weight: bold;
+        padding: 4px 10px;
+        border-radius: 8px;
       }
 
       #ip {
-	      background: #000080;
+        background: #0077ff;
+        color: #fff;
       }
-      #az{ background:#c30010
+      #az {
+        background: #ff8800;
+        color: #fff;
       }
       #hostname {
-	      background: #060606}
-</style>
-</head>
-<body>
-	<h1>Website Deployment Project</h1>
-	<div class="info">
-	<h2>Instance Information</h2>
-	<p><strong>Instance IP:</strong> <span id="ip">{{ ec2_ip.stdout }}</span></p>
-	<p><strong>Availability Zone:</strong> <span id="az">{{ ec2_az.stdout }}</span></p>
-	<p><strong>Hostname:</strong> <span id="hostname">{{ ec2_hostname.stdout }}</span></p>
+        background: #28a745;
+        color: #fff;
+      }
 
-	</div>
-      </body>
+      .explain {
+        margin-top: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border-left: 4px solid #00bfff;
+        padding: 20px;
+        border-radius: 10px;
+        font-size: 1.05em;
+      }
+      .contact {
+        text-align: center;
+      }
+
+      .contact a {
+        display: inline-block;
+        margin: 10px;
+        text-decoration: none;
+        color: #ffffff;
+        padding: 10px 20px;
+        border: 2px solid #00bfff;
+        border-radius: 25px;
+        transition: 0.3s;
+      }
+      .indented-paragraph {
+        padding-left: 30px; /* Indents the first line by 50 pixels */
+      }
+      .contact a:hover {
+        background: #00bfff;
+        color: #000;
+      }
+      footer {
+        text-align: center;
+        padding: 20px;
+        background: #111;
+        margin-top: 60px;
+        color: #bbb;
+      }
+
+      .highlight {
+        color: #00ffcc;
+        font-weight: bold;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      section {
+        animation: fadeIn 1s ease forwards;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Owolabi Agbabiaka</h1>
+      <p>Cloud & DevOps Engineer | Frontend Dev</p>
+    </header>
+
+    <section>
+      <h2>About the Project</h2>
+      <div class="project">
+        <p>
+          This project demonstrates
+          <span class="highlight">automated web deployment on AWS EC2</span>
+          using <span class="highlight">Ansible</span>. It dynamically fetches
+          the EC2 instance details <strong>Private IP Address</strong>,
+          <strong>Availability Zone</strong>, and <strong>Hostname</strong>
+          from the AWS Instance Metadata Service (IMDSv2) and displays them on a
+          hosted web page.
+        </p>
+        <p>The deployment process involved:</p>
+        <ul class="indented-paragraph">
+          <li>Configuring EC2 with Ansible Playbook for automation</li>
+          <li>Installing and starting Nginx automatically</li>
+          <li>
+            Using IMDSv2 token-based metadata retrieval for IP, Hostname & AZ
+          </li>
+          <li>
+            Deploying a dynamic HTML template that renders real-time EC2 data
+          </li>
+        </ul>
+
+        <div class="info">
+          <h3>Live EC2 Instance Information</h3>
+          <p class="indented-paragraph">
+            <strong>Instance IP:</strong> <span id="ip"> {{ ec2_ip.stdout }}</span>
+          </p>
+          <p class="indented-paragraph">
+            <strong>Availability Zone:</strong> <span id="az">{{ ec2_az.stdout }}</span>
+          </p>
+          <p class="indented-paragraph">
+            <strong>Hostname:</strong> <span id="hostname">{{ ec2_hostname.stdout }}</span>
+          </p>
+        </div>
+
+        <div class="explain">
+          <p>
+            This web page fetches EC2 metadata dynamically using JavaScript from
+            the
+            <strong>http://169.254.169.254/latest/meta-data</strong> endpoint.
+            When hosted on an EC2 instance, these values update automatically to
+            show real instance data.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="contact">
+      <h2>Contact</h2>
+      <p>
+        Let’s connect! I’m always open to collaborations, cloud projects, or
+        technical discussions.
+      </p>
+      <a href="mailto:Owolabiagbabiaka001@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/owolabi-agbabiaka/">LinkedIn</a>
+      <a href="https://github.com/hagbazzinfo001">GitHub</a>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Agbabiaka Owolabi | AWS Cloud Automation Project</p>
+    </footer>
+
+  </body>
 </html>
 
